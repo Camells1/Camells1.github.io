@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shattercrown | Camel Studios</title>
+<meta name="description" content="Shattercrown: Legends of the Shattered Crown. A free action RPG you can play solo or online with up to 3 friends.">
+<meta property="og:title" content="Shattercrown">
+<meta property="og:description" content="A free action RPG. Solo or online co-op with up to 3 friends.">
+<meta property="og:image" content="https://camells1.github.io/img/shattercrown-gameplay.jpg">
+<link rel="icon" href="../assets/shattercrown-icon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* Shattercrown's own colours: royal purple and crown gold */
+  body { --red: #f0b838; }
+  .ghero::after { background: linear-gradient(90deg, rgba(12,6,22,.94) 0%, rgba(12,6,22,.6) 50%, rgba(12,6,22,.1) 100%), linear-gradient(0deg, var(--bg) 0%, transparent 40%); }
+  .sc-hero-title { display: flex; align-items: center; gap: 20px; }
+  .sc-hero-title img { width: 110px; height: 110px; border-radius: 24px; box-shadow: 0 16px 50px #000a, 0 0 40px #f0b83833; }
+  .sc-hero-title h1 { font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-size: clamp(40px, 7vw, 92px); letter-spacing: 4px; line-height: 1; background: linear-gradient(180deg, #fff0a0 10%, #f0b838 55%, #b06a10); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 4px 10px #000c); }
+  .sc-hero-title small { display: block; font-family: Georgia, serif; font-style: italic; font-size: clamp(16px, 2vw, 22px); color: #e9dcc0; letter-spacing: 2px; margin-top: 8px; -webkit-text-fill-color: #e9dcc0; }
+  .btn.crown { background: linear-gradient(135deg, #fff0a0, #f0b838 50%, #c07a18); color: #241300; box-shadow: 0 10px 40px #f0b83855; }
+  .feature .n { color: #f0b838; }
+  .feature:hover { border-color: rgba(240,184,56,.45); }
+  .download { background: radial-gradient(ellipse at 50% 0%, #6a3aa02e, transparent 60%), var(--panel); }
+  .gallery { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; margin-top: 34px; }
+  .gallery .map:first-child { grid-row: span 2; aspect-ratio: auto; }
+  @media (max-width: 900px) { .gallery { grid-template-columns: 1fr 1fr; } .gallery .map:first-child { grid-column: span 2; grid-row: auto; aspect-ratio: 16 / 9; } }
+</style>
+</head>
+<body>
+<div class="sky"></div><div class="stars"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
+    <nav class="links">
+      <a href="#features">Features</a>
+      <a href="#world">World</a>
+      <a href="#friends">Co-op</a>
+      <a href="../account/">Account</a>
+      <a class="cta" href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="ghero">
+    <div class="bg" style="background-image:url(../img/shattercrown-gameplay.jpg)"></div>
+    <div class="wrap">
+      <div class="sc-hero-title"><img src="../assets/shattercrown-icon.svg" alt=""><h1>SHATTERCROWN<small>Legends of the Shattered Crown</small></h1></div>
+      <p class="lead">An action RPG you can play <b>solo or online with up to 3 friends</b>. Build your hero, explore a huge open world, and bring down bosses that come back harder every time.</p>
+      <div class="actions">
+        <a class="btn crown" href="https://github.com/Camells1/Emberfall/releases/latest/download/Shattercrown-Setup.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+          Download for Windows
+        </a>
+        <a class="btn ghost" href="#features">What's inside</a>
+      </div>
+      <div class="meta"><span><b>Free</b> to play</span><span><b>Co-op</b> for up to 4</span><span>Windows 10 / 11</span><span>Formerly Emberfall</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Features</div>
+        <h2>A whole kingdom to explore</h2>
+        <p class="sub">A 3D world with real shadows, day and night, and everything (art, sound and music) generated in code.</p>
+      </div>
+      <div class="features">
+        <div class="feature panel reveal"><div class="n">17</div><h3>Bloodborn races</h3><p>Human, Elf, Dwarf, Dragonborn, Revenant, Merfolk, Minotaur and more, with deep customisation.</p></div>
+        <div class="feature panel reveal"><div class="n">5</div><h3>Classes</h3><p>Plus 30 learnable skills from trainers and quests. Put any four on your skill bar.</p></div>
+        <div class="feature panel reveal"><div class="n">11</div><h3>Bosses</h3><p>Each with its own attacks, phases, shields and enrage timers, and harder rematches after every win.</p></div>
+        <div class="feature panel reveal"><div class="n">18</div><h3>Regions</h3><p>Roads, forts, ruins, lakes, cliffs and waterfalls. The further from town, the tougher the monsters.</p></div>
+        <div class="feature panel reveal"><div class="n">28</div><h3>Mounts &amp; pets</h3><p>12 mounts with special abilities and 16 pets that follow you and fetch loot.</p></div>
+        <div class="feature panel reveal"><div class="n">35</div><h3>Achievements</h3><p>Plus crafting, 16 enchantments, a PvP arena, the Gauntlet and 60+ quests.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="world">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Screenshots</div>
+        <h2>See the world</h2>
+      </div>
+      <div class="gallery">
+        <div class="map reveal"><img src="../img/shattercrown-gameplay.jpg" alt="Gameplay" loading="lazy"><div><b>The Whisperwood</b><p>Exploring with your pet</p></div></div>
+        <div class="map reveal"><img src="../img/shattercrown-cliffs.jpg" alt="Cliffs" loading="lazy"><div><b>Cliffs &amp; waterfalls</b></div></div>
+        <div class="map reveal"><img src="../img/shattercrown-boss.jpg" alt="Boss" loading="lazy"><div><b>Boss fights</b></div></div>
+        <div class="map reveal"><img src="../img/shattercrown-creator.jpg" alt="Character creator" loading="lazy"><div><b>Character creator</b></div></div>
+        <div class="map reveal"><img src="../img/shattercrown-title.jpg" alt="Title screen" loading="lazy"><div><b>Title screen</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="friends">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Play with friends</div>
+        <h2>Co-op in three steps</h2>
+      </div>
+      <div class="steps">
+        <div class="step panel reveal"><h3>Host</h3><p>Click Multiplayer, pick your character and click Host. You get a 5-letter room code.</p></div>
+        <div class="step panel reveal"><h3>Join</h3><p>Friends click Multiplayer, pick their own character, type the code and click Join.</p></div>
+        <div class="step panel reveal"><h3>Adventure</h3><p>Everyone keeps their own gear, XP and loot. Up to 4 players, with an optional room password.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="download">
+    <div class="wrap">
+      <div class="download panel reveal">
+        <img src="../assets/shattercrown-icon.svg" alt="" style="width:92px;margin:0 auto 14px;border-radius:20px;box-shadow:0 10px 40px #0009">
+        <h2>Download Shattercrown</h2>
+        <p class="sub" style="margin:0 auto">Free for Windows 10 and 11. Already have Emberfall? Install over it and your saves carry over.</p>
+        <div class="actions">
+          <a class="btn crown" href="https://github.com/Camells1/Emberfall/releases/latest/download/Shattercrown-Setup.exe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+            Download installer
+          </a>
+          <a class="btn ghost" href="../account/">Create an account</a>
+        </div>
+        <p class="small">If Windows says "Windows protected your PC", click <b>More info → Run anyway</b>. That shows up because the game isn't signed yet. See <a href="https://github.com/Camells1/Emberfall/releases">all versions and patch notes</a>.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS</span></a>
+    <span>© <span data-year></span> Camel Studios</span>
+    <nav><a href="../">Home</a><a href="../riftline/">Riftline</a><a href="../account/">Account</a></nav>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

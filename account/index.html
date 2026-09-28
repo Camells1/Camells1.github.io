@@ -25,7 +25,7 @@
     <!-- Signed out -->
     <section id="v-auth" class="hidden">
       <h1>Camel Studios account</h1>
-      <p class="sub">One account and one username#tag for every Camel Studios game.</p>
+      <p class="sub">One account and one username#tag for every Camel Studios game. Every ID is unique.</p>
       <div class="tabs"><button data-t="in" class="sel">Sign in</button><button data-t="up">Create account</button></div>
       <form id="f-in">
         <label for="in-email">Email</label><input id="in-email" type="email" autocomplete="email" required>
@@ -66,8 +66,9 @@ import {
   getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile,
   sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getFirestore, doc, getDoc, writeBatch, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-// Public web config (safe to publish: access is controlled by Firebase Auth, not by hiding this)
+// Public web config (safe to publish: access is controlled by Firebase Auth and Firestore rules)
 const app = initializeApp({
   apiKey: 'AIzaSyAgEzMO9dzwwHr-iyvDhRho-DY1-gg9os4',
   authDomain: 'riftline-f4af8.firebaseapp.com',
@@ -77,25 +78,68 @@ const app = initializeApp({
   appId: '1:393303739849:web:cd9b1b2e0cb1725a512c18'
 });
 const auth = getAuth(app);
+const db = getFirestore(app);
 const $ = s => document.querySelector(s);
-// Opened from a game (e.g. ?app=riftline): hand the session back to the game after sign-in
-const fromGame = new URLSearchParams(location.search).get('app');
-let stay = true;
 
-if (fromGame) { $('#for-game').classList.remove('hidden'); $('#nav').classList.add('hidden'); }
+// Opened from a game (?app=riftline or ?app=shattercrown): hand the session back after sign-in
+const GAMES = {
+  riftline: { name: 'Riftline', icon: '../assets/riftline-icon.png' },
+  shattercrown: { name: 'Shattercrown', icon: '../assets/shattercrown-icon.svg' }
+};
+const fromGame = GAMES[new URLSearchParams(location.search).get('app')] || null;
+let stay = true;
+if (fromGame) {
+  $('#for-game').classList.remove('hidden'); $('#nav').classList.add('hidden');
+  $('#for-game img').src = fromGame.icon; $('#for-game b').textContent = fromGame.name;
+}
 
 const msg = (t, ok = false) => { $('#msg').textContent = t || ''; $('#msg').classList.toggle('ok', ok); };
 const cleanName = n => String(n || '').replace(/[^\p{L}\p{N} _.-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 14);
 const cleanTag = t => String(t || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
 const splitId = dn => { const i = (dn || '').lastIndexOf('#'); return i > 0 ? [dn.slice(0, i), dn.slice(i + 1)] : [dn || '', '']; };
 const randomTag = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+const keyOf = (name, tag) => name.toLowerCase() + '#' + tag;
+const TAKEN = 'That username#tag is already taken. Try a different tag.';
 const nice = e => ({
   'auth/invalid-credential': 'Wrong email or password.', 'auth/wrong-password': 'Wrong email or password.', 'auth/user-not-found': 'No account with that email.',
   'auth/email-already-in-use': 'That email already has an account. Sign in instead.', 'auth/weak-password': 'Password needs at least 6 characters.',
   'auth/invalid-email': 'That email address looks wrong.', 'auth/too-many-requests': 'Too many tries. Wait a minute and try again.',
-  'auth/network-request-failed': 'No connection. Check your internet.'
+  'auth/network-request-failed': 'No connection. Check your internet.', 'id-taken': TAKEN, 'permission-denied': TAKEN
 }[e.code] || e.message);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+// ---- Unique IDs: ids/{name#TAG} can exist once (the Firestore rules forbid taking over an existing one)
+async function ownerOf(name, tag) {
+  const snap = await getDoc(doc(db, 'ids', keyOf(name, tag)));
+  return snap.exists() ? snap.data().uid : null;
+}
+async function claim(user, name, tag) {
+  const key = keyOf(name, tag);
+  const owner = await ownerOf(name, tag);
+  if (owner && owner !== user.uid) throw Object.assign(new Error(TAKEN), { code: 'id-taken' });
+  if (!owner) {
+    const mine = await getDoc(doc(db, 'users', user.uid));
+    const old = mine.exists() ? mine.data().id : null;
+    const b = writeBatch(db);
+    b.set(doc(db, 'ids', key), { uid: user.uid, name, tag, at: serverTimestamp() });
+    if (old && old !== key) b.delete(doc(db, 'ids', old));
+    b.set(doc(db, 'users', user.uid), { id: key });
+    await b.commit();
+  }
+  await updateProfile(user, { displayName: `${name}#${tag}` });
+}
+// Accounts made before IDs were unique: register their ID the first time we see them
+async function ensureClaim(user) {
+  const [name, tag] = splitId(user.displayName);
+  if (!name || !tag) return;
+  try {
+    const mine = await getDoc(doc(db, 'users', user.uid));
+    if (mine.exists() && mine.data().id === keyOf(name, tag)) return;
+    await claim(user, name, tag);
+  } catch (e) {
+    if (e.code === 'id-taken') { msg('Someone else already has your username#tag. Pick a new one below.'); $('#b-edit').click(); }
+  }
+}
 
 $('#su-tag').value = randomTag();
 for (const id of ['#su-tag', '#ed-tag']) $(id).addEventListener('input', e => { e.target.value = cleanTag(e.target.value); });
@@ -111,6 +155,7 @@ $('#f-in').addEventListener('submit', async e => {
     stay = $('#in-stay').checked;
     await setPersistence(auth, stay ? browserLocalPersistence : browserSessionPersistence);
     const cred = await signInWithEmailAndPassword(auth, $('#in-email').value.trim(), $('#in-pass').value);
+    await ensureClaim(cred.user);
     if (fromGame) handOff(cred.user);
   } catch (err) { msg(nice(err)); }
   busy(e.target, false);
@@ -123,10 +168,16 @@ $('#f-up').addEventListener('submit', async e => {
   if (tag.length < 3) return msg('Tag needs 3 to 5 letters or numbers.');
   busy(e.target, true);
   try {
+    // Check first so nobody makes an account with a taken ID
+    if (await ownerOf(name, tag).catch(() => null)) throw Object.assign(new Error(TAKEN), { code: 'id-taken' });
     stay = $('#up-stay').checked;
     await setPersistence(auth, stay ? browserLocalPersistence : browserSessionPersistence);
     const cred = await createUserWithEmailAndPassword(auth, $('#up-email').value.trim(), $('#up-pass').value);
-    await updateProfile(cred.user, { displayName: `${name}#${tag}` });
+    try { await claim(cred.user, name, tag); }
+    catch (err) {
+      if (err.code === 'id-taken') { show(cred.user); msg('Your account is ready, but that ID was just taken. Pick another below.'); $('#b-edit').click(); busy(e.target, false); return; }
+      await updateProfile(cred.user, { displayName: `${name}#${tag}` }); // database not reachable: keep the name, register it on the next sign-in
+    }
     show(cred.user);
     if (fromGame) handOff(cred.user);
   } catch (err) { msg(nice(err)); }
@@ -142,13 +193,16 @@ $('#forgot').addEventListener('click', async () => {
 $('#b-out').addEventListener('click', async () => { await signOut(auth); msg('Signed out.', true); });
 $('#b-edit').addEventListener('click', () => {
   const [n, t] = splitId(auth.currentUser?.displayName);
-  $('#ed-name').value = n; $('#ed-tag').value = t || randomTag(); $('#f-edit').classList.toggle('hidden');
+  $('#ed-name').value = n; $('#ed-tag').value = t || randomTag(); $('#f-edit').classList.remove('hidden');
 });
 $('#f-edit').addEventListener('submit', async e => {
   e.preventDefault();
   const name = cleanName($('#ed-name').value), tag = cleanTag($('#ed-tag').value);
   if (name.length < 3 || tag.length < 3) return msg('Username needs 3+ characters and the tag 3 to 5.');
-  try { await updateProfile(auth.currentUser, { displayName: `${name}#${tag}` }); $('#f-edit').classList.add('hidden'); show(auth.currentUser); msg('Saved.', true); } catch (err) { msg(nice(err)); }
+  busy(e.target, true);
+  try { await claim(auth.currentUser, name, tag); $('#f-edit').classList.add('hidden'); show(auth.currentUser); msg('Saved. Nobody else can use this ID now.', true); }
+  catch (err) { msg(nice(err)); }
+  busy(e.target, false);
 });
 
 // The game watches this window's address for #rl-auth=<json>
@@ -158,7 +212,7 @@ function handOff(user) {
 }
 $('#b-play').addEventListener('click', () => {
   if (fromGame && auth.currentUser) handOff(auth.currentUser);
-  else location.href = '../riftline/';
+  else location.href = '../';
 });
 
 function show(user) {
@@ -169,9 +223,10 @@ function show(user) {
   $('#me-av').textContent = (name || user.email || '?')[0].toUpperCase();
   $('#me-name').innerHTML = name ? `${esc(name)}<span>#${esc(tag)}</span>` : 'No username yet';
   $('#me-mail').textContent = user.email;
-  $('#b-play').textContent = fromGame ? 'Continue to Riftline' : 'Play Riftline';
+  $('#b-play').textContent = fromGame ? `Continue to ${fromGame.name}` : 'Our games';
 }
-onAuthStateChanged(auth, show);
+let checked = false;
+onAuthStateChanged(auth, user => { show(user); if (user && !checked) { checked = true; ensureClaim(user); } });
 </script>
 </body>
 </html>

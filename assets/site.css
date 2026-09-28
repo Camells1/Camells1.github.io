@@ -1,5 +1,5 @@
 /* Camel Studios site: desert night, sunset gold, glass panels */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Unbounded:wght@600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Unbounded:wght@600;800&family=Cinzel:wght@700;800&display=swap');
 
 :root {
   --bg: #07060d;
@@ -83,7 +83,13 @@ h2 { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 4.5vw
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); backdrop-filter: blur(16px); }
 
 /* Game cards */
-.games { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; margin-top: 40px; }
+.games { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 40px; }
+.game.soon { grid-column: 1 / -1; min-height: 190px !important; }
+.game.soon .q { font-size: 70px !important; }
+.game.sc:hover { border-color: rgba(240,184,56,.5); box-shadow: 0 30px 80px #f0b83822; }
+.sc-title { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.sc-title img { width: 64px; height: 64px; border-radius: 14px; box-shadow: 0 8px 30px #0008; }
+.sc-title span { font-family: 'Cinzel', Georgia, serif; font-weight: 800; font-size: clamp(26px, 3vw, 38px); letter-spacing: 3px; background: linear-gradient(180deg, #fff0a0, #f0b838 55%, #b06a10); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 6px #000a); }
 .game { position: relative; overflow: hidden; border-radius: 22px; border: 1px solid var(--line); background: #0e0b16; min-height: 420px; display: flex; flex-direction: column; justify-content: flex-end; transition: transform .25s, border-color .25s, box-shadow .25s; }
 .game:hover { transform: translateY(-4px); border-color: rgba(255,61,90,.45); box-shadow: 0 30px 80px #ff3d5a22; }
 .game .shot { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform .6s; }
