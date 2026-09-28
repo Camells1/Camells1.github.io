@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account | Camel Studios</title>
+<meta name="description" content="Sign in to your Camel Studios account. One account and one username#tag for every Camel Studios game.">
+<link rel="icon" href="../assets/camel.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="sky"></div><div class="stars"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
+    <nav class="links"><a href="../">Home</a><a class="cta" href="../riftline/">Riftline</a></nav>
+  </div>
+</header>
+
+<main class="auth-page">
+  <div class="auth panel">
+    <div class="for-game hidden" id="for-game"><img src="../assets/riftline-icon.png" alt=""><span>Signing in to <b>Riftline</b></span></div>
+
+    <!-- Signed out -->
+    <section id="v-auth" class="hidden">
+      <h1>Camel Studios account</h1>
+      <p class="sub">One account and one username#tag for every Camel Studios game.</p>
+      <div class="tabs"><button data-t="in" class="sel">Sign in</button><button data-t="up">Create account</button></div>
+      <form id="f-in">
+        <label for="in-email">Email</label><input id="in-email" type="email" autocomplete="email" required>
+        <label for="in-pass">Password</label><input id="in-pass" type="password" autocomplete="current-password" required>
+        <label class="check"><input id="in-stay" type="checkbox" checked> Stay logged in</label>
+        <button class="btn gold" type="submit">Sign in</button>
+        <button class="linkbtn" type="button" id="forgot">Forgot password?</button>
+      </form>
+      <form id="f-up" class="hidden">
+        <label for="up-email">Email</label><input id="up-email" type="email" autocomplete="email" required>
+        <label for="up-pass">Password (6+ characters)</label><input id="up-pass" type="password" autocomplete="new-password" minlength="6" required>
+        <label>Username#tag</label>
+        <div class="idrow"><input id="su-name" type="text" maxlength="14" placeholder="Username" autocomplete="off" required><span class="hash">#</span><input id="su-tag" class="tagin" type="text" maxlength="5" placeholder="TAG" autocomplete="off" required></div>
+        <label class="check"><input id="up-stay" type="checkbox" checked> Stay logged in</label>
+        <button class="btn gold" type="submit">Create account</button>
+      </form>
+    </section>
+
+    <!-- Signed in -->
+    <section id="v-me" class="hidden">
+      <div class="who"><div class="avatar" id="me-av">?</div><div class="name" id="me-name"></div><div class="mail" id="me-mail"></div></div>
+      <button class="btn gold" id="b-play">Continue to Riftline</button>
+      <button class="btn ghost" id="b-edit">Change username#tag</button>
+      <form id="f-edit" class="hidden">
+        <div class="idrow" style="margin-top:12px"><input id="ed-name" type="text" maxlength="14" placeholder="Username"><span class="hash">#</span><input id="ed-tag" class="tagin" type="text" maxlength="5" placeholder="TAG"></div>
+        <button class="btn gold" type="submit">Save</button>
+      </form>
+      <button class="btn ghost" id="b-out">Sign out</button>
+    </section>
+
+    <div class="msg" id="msg"></div>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile,
+  sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+
+// Public web config (safe to publish: access is controlled by Firebase Auth, not by hiding this)
+const app = initializeApp({
+  apiKey: 'AIzaSyAgEzMO9dzwwHr-iyvDhRho-DY1-gg9os4',
+  authDomain: 'riftline-f4af8.firebaseapp.com',
+  projectId: 'riftline-f4af8',
+  storageBucket: 'riftline-f4af8.firebasestorage.app',
+  messagingSenderId: '393303739849',
+  appId: '1:393303739849:web:cd9b1b2e0cb1725a512c18'
+});
+const auth = getAuth(app);
+const $ = s => document.querySelector(s);
+// Opened from a game (e.g. ?app=riftline): hand the session back to the game after sign-in
+const fromGame = new URLSearchParams(location.search).get('app');
+let stay = true;
+
+if (fromGame) { $('#for-game').classList.remove('hidden'); $('#nav').classList.add('hidden'); }
+
+const msg = (t, ok = false) => { $('#msg').textContent = t || ''; $('#msg').classList.toggle('ok', ok); };
+const cleanName = n => String(n || '').replace(/[^\p{L}\p{N} _.-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 14);
+const cleanTag = t => String(t || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
+const splitId = dn => { const i = (dn || '').lastIndexOf('#'); return i > 0 ? [dn.slice(0, i), dn.slice(i + 1)] : [dn || '', '']; };
+const randomTag = () => Array.from({ length: 4 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+const nice = e => ({
+  'auth/invalid-credential': 'Wrong email or password.', 'auth/wrong-password': 'Wrong email or password.', 'auth/user-not-found': 'No account with that email.',
+  'auth/email-already-in-use': 'That email already has an account. Sign in instead.', 'auth/weak-password': 'Password needs at least 6 characters.',
+  'auth/invalid-email': 'That email address looks wrong.', 'auth/too-many-requests': 'Too many tries. Wait a minute and try again.',
+  'auth/network-request-failed': 'No connection. Check your internet.'
+}[e.code] || e.message);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+$('#su-tag').value = randomTag();
+for (const id of ['#su-tag', '#ed-tag']) $(id).addEventListener('input', e => { e.target.value = cleanTag(e.target.value); });
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('sel', x === b));
+  $('#f-in').classList.toggle('hidden', b.dataset.t !== 'in'); $('#f-up').classList.toggle('hidden', b.dataset.t !== 'up'); msg('');
+}));
+const busy = (form, on) => form.querySelectorAll('button').forEach(b => { b.disabled = on; });
+
+$('#f-in').addEventListener('submit', async e => {
+  e.preventDefault(); busy(e.target, true); msg('');
+  try {
+    stay = $('#in-stay').checked;
+    await setPersistence(auth, stay ? browserLocalPersistence : browserSessionPersistence);
+    const cred = await signInWithEmailAndPassword(auth, $('#in-email').value.trim(), $('#in-pass').value);
+    if (fromGame) handOff(cred.user);
+  } catch (err) { msg(nice(err)); }
+  busy(e.target, false);
+});
+
+$('#f-up').addEventListener('submit', async e => {
+  e.preventDefault(); msg('');
+  const name = cleanName($('#su-name').value), tag = cleanTag($('#su-tag').value);
+  if (name.length < 3) return msg('Username needs at least 3 characters.');
+  if (tag.length < 3) return msg('Tag needs 3 to 5 letters or numbers.');
+  busy(e.target, true);
+  try {
+    stay = $('#up-stay').checked;
+    await setPersistence(auth, stay ? browserLocalPersistence : browserSessionPersistence);
+    const cred = await createUserWithEmailAndPassword(auth, $('#up-email').value.trim(), $('#up-pass').value);
+    await updateProfile(cred.user, { displayName: `${name}#${tag}` });
+    show(cred.user);
+    if (fromGame) handOff(cred.user);
+  } catch (err) { msg(nice(err)); }
+  busy(e.target, false);
+});
+
+$('#forgot').addEventListener('click', async () => {
+  const email = $('#in-email').value.trim();
+  if (!email) return msg('Type your email above first.');
+  try { await sendPasswordResetEmail(auth, email); msg('Password reset email sent. Check your inbox.', true); } catch (err) { msg(nice(err)); }
+});
+
+$('#b-out').addEventListener('click', async () => { await signOut(auth); msg('Signed out.', true); });
+$('#b-edit').addEventListener('click', () => {
+  const [n, t] = splitId(auth.currentUser?.displayName);
+  $('#ed-name').value = n; $('#ed-tag').value = t || randomTag(); $('#f-edit').classList.toggle('hidden');
+});
+$('#f-edit').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = cleanName($('#ed-name').value), tag = cleanTag($('#ed-tag').value);
+  if (name.length < 3 || tag.length < 3) return msg('Username needs 3+ characters and the tag 3 to 5.');
+  try { await updateProfile(auth.currentUser, { displayName: `${name}#${tag}` }); $('#f-edit').classList.add('hidden'); show(auth.currentUser); msg('Saved.', true); } catch (err) { msg(nice(err)); }
+});
+
+// The game watches this window's address for #rl-auth=<json>
+function handOff(user) {
+  const [name, tag] = splitId(user.displayName);
+  location.hash = 'rl-auth=' + encodeURIComponent(JSON.stringify({ refreshToken: user.refreshToken, uid: user.uid, email: user.email, name, tag, stay }));
+}
+$('#b-play').addEventListener('click', () => {
+  if (fromGame && auth.currentUser) handOff(auth.currentUser);
+  else location.href = '../riftline/';
+});
+
+function show(user) {
+  $('#v-auth').classList.toggle('hidden', !!user);
+  $('#v-me').classList.toggle('hidden', !user);
+  if (!user) return;
+  const [name, tag] = splitId(user.displayName);
+  $('#me-av').textContent = (name || user.email || '?')[0].toUpperCase();
+  $('#me-name').innerHTML = name ? `${esc(name)}<span>#${esc(tag)}</span>` : 'No username yet';
+  $('#me-mail').textContent = user.email;
+  $('#b-play').textContent = fromGame ? 'Continue to Riftline' : 'Play Riftline';
+}
+onAuthStateChanged(auth, show);
+</script>
+</body>
+</html>

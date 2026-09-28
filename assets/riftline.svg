@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 150">
+  <g transform="translate(6 5)">
+    <polygon points="4,140 38,140 96,0 62,0" fill="#ff3d5a"/>
+    <polygon points="52,140 86,140 126,44 92,44" fill="#ff3d5a"/>
+    <polygon points="98,30 132,30 144,0 110,0" fill="#f5f0e8"/>
+  </g>
+  <text x="172" y="104" font-family="Bahnschrift, 'Segoe UI', sans-serif" font-weight="700" font-size="74" letter-spacing="10" fill="#f5f0e8">RIFTLINE</text>
+  <rect x="174" y="120" width="44" height="6" fill="#ff3d5a"/>
+</svg>
