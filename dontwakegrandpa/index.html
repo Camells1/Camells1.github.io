@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Don't Wake Grandpa | Camel Studios</title>
+<meta name="description" content="Don't Wake Grandpa: 2 to 4 tiny beans rob a sleeping giant. He can hear your real microphone. A goofy co-op heist with proximity voice chat, ragdolls and troll items. A Camel Studios game.">
+<meta property="og:title" content="Don't Wake Grandpa">
+<meta property="og:description" content="You are very small. He is fast asleep. Steal his stuff and keep it down.">
+<meta property="og:image" content="https://camells1.github.io/img/dontwakegrandpa-awake.jpg">
+<link rel="icon" href="../assets/dontwakegrandpa-icon.png">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* Don't Wake Grandpa's own colours: dressing-gown purple and braid gold */
+  body { --red: #b79bff; }
+  .ghero::after { background: linear-gradient(90deg, rgba(22, 14, 46, .94) 0%, rgba(22, 14, 46, .58) 50%, rgba(22, 14, 46, .08) 100%), linear-gradient(0deg, var(--bg) 0%, transparent 40%); }
+  .nz-title { display: flex; align-items: center; gap: 20px; }
+  .nz-title img { width: 110px; height: 110px; border-radius: 26px; box-shadow: 0 16px 50px #000a, 0 0 50px #b79bff44; transform: rotate(-4deg); }
+  .nz-title h1 { font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(32px, 5.2vw, 70px); letter-spacing: 2px; line-height: .98; }
+  .nz-title h1 span { display: block; } .nz-title .a { color: #ffc93c; } .nz-title .b { color: #b79bff; }
+  .btn.zoo { background: linear-gradient(135deg, #d3c2ff, #9a78ff); color: #1c1036; box-shadow: 0 10px 40px #9a78ff55; }
+  .feature .n { color: #ffc93c; }
+  .feature:hover { border-color: rgba(183, 155, 255, .5); }
+  .download { background: radial-gradient(ellipse at 50% 0%, #6a4cff33, transparent 60%), var(--panel); }
+  .shift { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 30px; }
+  .shift div { padding: 16px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); min-width: 0; }
+  .shift b { display: block; font-family: 'Unbounded', sans-serif; font-size: 15px; }
+  .shift small { color: var(--muted); }
+  .shift .day { border-color: #ffc93c77; background: linear-gradient(180deg, #ffc93c18, var(--panel)); }
+  .shift .night { border-color: #ff5d7388; background: linear-gradient(180deg, #ff5d7322, var(--panel)); }
+  .trailer { margin-top: 30px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 20px 70px #0009; background: #000; }
+  .trailer video { display: block; width: 100%; aspect-ratio: 16 / 9; }
+  .gallery { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; margin-top: 34px; }
+  .gallery .map:first-child { grid-row: span 2; aspect-ratio: auto; }
+  .gallery2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  @media (max-width: 900px) { .shift { grid-template-columns: 1fr 1fr; } .gallery, .gallery2 { grid-template-columns: 1fr; } .gallery .map:first-child { grid-row: auto; aspect-ratio: 16 / 9; } }
+</style>
+</head>
+<body>
+<div class="sky"></div><div class="stars"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
+    <nav class="links">
+      <a href="#trailer">Trailer</a>
+      <a href="#heist">The heist</a>
+      <a href="#features">Features</a>
+      <a href="#world">Screenshots</a>
+      <a class="cta" href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="ghero">
+    <div class="bg" style="background-image:url(../img/dontwakegrandpa-awake.jpg)"></div>
+    <div class="wrap">
+      <div class="nz-title"><img src="../assets/dontwakegrandpa-icon.png" alt=""><h1><span class="a">DON'T WAKE</span><span class="b">GRANDPA</span></h1></div>
+      <p class="lead">It's two in the morning. You are a very small bean. He is a very large Grandpa, fast asleep in his armchair, surrounded by nice things. Take them. Quietly.</p>
+      <div class="actions">
+        <a class="btn zoo" href="https://github.com/Camells1/CamelClient/releases/latest/download/Camel-Client-Setup.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+          Get it in the Camel Client
+        </a>
+        <a class="btn ghost" href="#trailer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg> Watch the trailer</a>
+      </div>
+      <div class="meta"><span><b>Free</b> to play</span><span><b>Co-op</b> for 2 to 4</span><span><b>Proximity voice chat</b></span><span>Windows 10 and 11</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="trailer">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Trailer</div>
+        <h2>Shhh. Watch this.</h2>
+      </div>
+      <div class="trailer reveal"><video controls muted playsinline preload="metadata" poster="../img/dontwakegrandpa-chase.jpg" src="dont-wake-grandpa-trailer.webm"></video></div>
+    </div>
+  </section>
+
+  <section class="block" id="heist">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">The heist</div>
+        <h2>Five nights. One slipper.</h2>
+        <p class="sub">Every night the quota goes up and Grandpa sleeps a little lighter.</p>
+      </div>
+      <div class="shift reveal">
+        <div><b>Sneak out</b><small>Out of the mouse hole, across the rug. Tiptoe on the creaky boards.</small></div>
+        <div class="day"><b>Grab it</b><small>Coins, false teeth, the pocket watch. Carry it home over your head. Heavy loot needs a friend.</small></div>
+        <div class="night"><b>Uh oh</b><small>Too much noise and he is up. Hide under the sofa, and get out from under the slipper's shadow.</small></div>
+        <div><b>Cash in</b><small>Hit the quota before sunrise, then spend the swag on quieter socks and a colander helmet.</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Features</div>
+        <h2>What's in the house</h2>
+      </div>
+      <div class="features">
+        <div class="feature panel reveal"><div class="n">🎙</div><h3>He hears your real voice</h3><p>Proximity voice chat for the crew, and Grandpa's noise meter listens to your actual microphone. Whisper near the armchair.</p></div>
+        <div class="feature panel reveal"><div class="n">🥿</div><h3>A proper Grandpa</h3><p>He talks in his sleep, stomps round the furniture, squats to swat, throws a tantrum when he misses and laughs when he doesn't.</p></div>
+        <div class="feature panel reveal"><div class="n">🎩</div><h3>Dress the whole bean</h3><p>Body, eyes, mouth, real 3D clothes, hats, capes, jetpacks. Then eight dances and eight emotes to show it off.</p></div>
+        <div class="feature panel reveal"><div class="n">😈</div><h3>Troll your friends</h3><p>Shrink rays, helium balloons, pots of glue, alarm clocks, cream pies, and a frying pan for when words fail you.</p></div>
+        <div class="feature panel reveal"><div class="n">🍌</div><h3>Ragdolls and bananas</h3><p>Whacked beans go flying. Flat beans get pumped back up. Banana peels work on absolutely everyone.</p></div>
+        <div class="feature panel reveal"><div class="n">4</div><h3>Beans, one room code</h3><p>Play with up to 3 friends using a room code. No server to run. You can also practise on your own.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="world">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Screenshots</div>
+        <h2>See the house</h2>
+      </div>
+      <div class="gallery">
+        <div class="map reveal"><img src="../img/dontwakegrandpa-asleep.jpg" alt="Grandpa asleep in his armchair" loading="lazy"><div><b>Fast asleep</b><p>Probably</p></div></div>
+        <div class="map reveal"><img src="../img/dontwakegrandpa-chase.jpg" alt="Grandpa chasing the beans" loading="lazy"><div><b>Run</b><p>He goes round the coffee table. You can go under it</p></div></div>
+        <div class="map reveal"><img src="../img/dontwakegrandpa-slip.jpg" alt="Grandpa slipping on a banana peel" loading="lazy"><div><b>Whoa! My hip!</b><p>Bunny slippers have no grip</p></div></div>
+      </div>
+      <div class="gallery2">
+        <div class="map reveal"><img src="../img/dontwakegrandpa-beans.jpg" alt="Three dressed-up beans" loading="lazy"><div><b>The crew</b><p>Hats, capes, a tuxedo, a jetpack</p></div></div>
+        <div class="map reveal"><img src="../img/dontwakegrandpa-awake.jpg" alt="Grandpa awake and furious" loading="lazy"><div><b>Who is in my house?</b><p>You are, and you have his teeth</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="download">
+    <div class="wrap">
+      <div class="download panel reveal">
+        <img src="../assets/dontwakegrandpa-icon.png" alt="" style="width:92px;margin:0 auto 14px;border-radius:22px;box-shadow:0 10px 40px #0009">
+        <h2>Play Don't Wake Grandpa</h2>
+        <p class="sub" style="margin:0 auto">Free for Windows 10 and 11 through the Camel Client. Install the client, sign in, and press Install on Don't Wake Grandpa.</p>
+        <div class="actions">
+          <a class="btn zoo" href="https://github.com/Camells1/CamelClient/releases/latest/download/Camel-Client-Setup.exe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+            Get the Camel Client
+          </a>
+        </div>
+        <p class="small">If Windows says "Windows protected your PC", click <b>More info → Run anyway</b>. That shows up because the app isn't signed yet. Best with 2 to 4 players and microphones.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS</span></a>
+    <span>© <span data-year></span> Camel Studios</span>
+    <nav><a href="../">Home</a><a href="../riftline/">Riftline</a><a href="../shattercrown/">Shattercrown</a><a href="../hollowtide/">Hollowtide</a><a href="../nightshiftzoo/">Night Shift Zoo</a><a href="../account/">Account</a></nav>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
