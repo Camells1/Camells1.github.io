@@ -208,7 +208,14 @@ $('#f-edit').addEventListener('submit', async e => {
 // The game watches this window's address for #rl-auth=<json>
 function handOff(user) {
   const [name, tag] = splitId(user.displayName);
-  location.hash = 'rl-auth=' + encodeURIComponent(JSON.stringify({ refreshToken: user.refreshToken, uid: user.uid, email: user.email, name, tag, stay }));
+  const data = { refreshToken: user.refreshToken, uid: user.uid, email: user.email, name, tag, stay };
+  // Browser version (Chromebooks etc.): the game opened this page as a pop-up on the same site,
+  // so hand the session straight back to it and close.
+  if (window.opener && !window.opener.closed) {
+    try { window.opener.postMessage({ type: 'camel-auth', data }, location.origin); window.close(); return; } catch (_) {}
+  }
+  // Desktop apps watch this window's address for #rl-auth=<json>
+  location.hash = 'rl-auth=' + encodeURIComponent(JSON.stringify(data));
 }
 $('#b-play').addEventListener('click', () => {
   if (fromGame && auth.currentUser) handOff(auth.currentUser);

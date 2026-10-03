@@ -1,0 +1,19 @@
+{
+  "name": "Hollowtide",
+  "short_name": "Hollowtide",
+  "description": "Loot the sunken ruins before the tide comes back. A Camel Studios game.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#051520",
+  "theme_color": "#051520",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

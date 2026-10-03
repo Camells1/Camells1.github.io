@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollowtide | Camel Studios</title>
+<meta name="description" content="Hollowtide: when the tide drains, the sunken ruins are yours for a few minutes. Solo or co-op with proximity voice chat. A Camel Studios game.">
+<meta property="og:title" content="Hollowtide">
+<meta property="og:description" content="When the tide drains, the sunken ruins are yours for a few minutes.">
+<meta property="og:image" content="https://camells1.github.io/img/hollowtide-ruins.jpg">
+<link rel="icon" href="../assets/hollowtide-icon.png">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* Hollowtide's own colours: deep sea and moonlit teal */
+  body { --red: #5fd4c6; }
+  .ghero::after { background: linear-gradient(90deg, rgba(4, 16, 24, .94) 0%, rgba(4, 16, 24, .6) 50%, rgba(4, 16, 24, .1) 100%), linear-gradient(0deg, var(--bg) 0%, transparent 40%); }
+  .ht-title { display: flex; align-items: center; gap: 20px; }
+  .ht-title img { width: 110px; height: 110px; border-radius: 26px; box-shadow: 0 16px 50px #000a, 0 0 50px #5fd4c633; }
+  .ht-title h1 { font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(38px, 6.5vw, 84px); letter-spacing: 6px; line-height: 1; background: linear-gradient(180deg, #f2fffc 20%, #5fd4c6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .btn.tide { background: linear-gradient(135deg, #8ff0e4, #2fa6a4); color: #032024; box-shadow: 0 10px 40px #5fd4c655; }
+  .feature .n { color: #5fd4c6; }
+  .feature:hover { border-color: rgba(95, 212, 198, .45); }
+  .download { background: radial-gradient(ellipse at 50% 0%, #2fa6a42e, transparent 60%), var(--panel); }
+  .tidebar { display: grid; grid-template-columns: 120fr 20fr 120fr 25fr; gap: 6px; margin-top: 30px; }
+  .tidebar div { padding: 16px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); min-width: 0; }
+  .tidebar b { display: block; font-family: 'Unbounded', sans-serif; font-size: 15px; }
+  .tidebar small { color: var(--muted); }
+  .tidebar .low { border-color: #ffd16677; background: linear-gradient(180deg, #ffd16618, var(--panel)); }
+  .tidebar .flood { border-color: #ff6b6b66; }
+  .gallery { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; margin-top: 34px; }
+  .gallery .map:first-child { grid-row: span 2; aspect-ratio: auto; }
+  @media (max-width: 900px) { .tidebar { grid-template-columns: 1fr 1fr; } .gallery { grid-template-columns: 1fr; } .gallery .map:first-child { grid-row: auto; aspect-ratio: 16 / 9; } }
+</style>
+</head>
+<body>
+<div class="sky"></div><div class="stars"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
+    <nav class="links">
+      <a href="#tide">The tide</a>
+      <a href="#features">Features</a>
+      <a href="#world">Screenshots</a>
+      <a class="cta" href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="ghero">
+    <div class="bg" style="background-image:url(../img/hollowtide-ruins.jpg)"></div>
+    <div class="wrap">
+      <div class="ht-title"><img src="../assets/hollowtide-icon.png" alt=""><h1>HOLLOWTIDE</h1></div>
+      <p class="lead">When the tide drains, the sunken ruins are yours for a few minutes. Loot them, fight off the hollow crabs, and get back to the island before the sea comes back.</p>
+      <div class="actions">
+        <a class="btn tide" href="https://github.com/Camells1/Hollowtide/releases/latest/download/Hollowtide-Setup.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+          Download for Windows
+        </a>
+        <a class="btn ghost" href="../play/hollowtide/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg> Play in browser</a>
+      </div>
+      <div class="meta"><span><b>Free</b> to play</span><span><b>Co-op</b> for up to 4</span><span><b>Proximity voice chat</b></span><span>Windows · <b>Chromebook</b> · any browser</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="tide">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">The tide</div>
+        <h2>Five minutes, start to finish</h2>
+        <p class="sub">Every tide is one round. The sea always comes back.</p>
+      </div>
+      <div class="tidebar reveal">
+        <div><b>High tide · 2:00</b><small>On the island: stash your loot and build upgrades.</small></div>
+        <div><b>Ebb</b><small>The lagoon drains.</small></div>
+        <div class="low"><b>Low tide · 2:30</b><small>The Hollow is open. Pry open the glowing chests.</small></div>
+        <div class="flood"><b>Flood</b><small>Swim for it. The undertow pulls you down.</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Features</div>
+        <h2>What's down there</h2>
+      </div>
+      <div class="features">
+        <div class="feature panel reveal"><div class="n">38</div><h3>Ruin sites</h3><p>Abandoned city districts, stepped temples, an amphitheatre, aqueducts, shipwrecks and lighthouses across a lagoon 1.4 km wide.</p></div>
+        <div class="feature panel reveal"><div class="n">4</div><h3>Player co-op</h3><p>Single player or online with up to 3 friends using a room code. No server to run.</p></div>
+        <div class="feature panel reveal"><div class="n">🎙</div><h3>Proximity voice chat</h3><p>Hold V to talk. Friends sound like they're right where they stand, and muffled under water.</p></div>
+        <div class="feature panel reveal"><div class="n">7</div><h3>Upgrades</h3><p>Tide Lantern, Deep Lungs, Kelp Fins, Salvage Pack, Coral Blade, Strider Boots and the Tide Charm.</p></div>
+        <div class="feature panel reveal"><div class="n">🦀</div><h3>Hollow crabs</h3><p>They guard the ruins at low tide and burrow when the water returns.</p></div>
+        <div class="feature panel reveal"><div class="n">∞</div><h3>New loot every tide</h3><p>Chests reset each low tide. Drown, and your pack waits where you fell.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="world">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Screenshots</div>
+        <h2>See the Hollow</h2>
+      </div>
+      <div class="gallery">
+        <div class="map reveal"><img src="../img/hollowtide-ruins.jpg" alt="The ruins at low tide" loading="lazy"><div><b>The Hollow</b><p>A sunken city at low tide, with a lighthouse on the horizon</p></div></div>
+        <div class="map reveal"><img src="../img/hollowtide-island.jpg" alt="The island camp" loading="lazy"><div><b>Co-op</b><p>Up to four players with proximity voice</p></div></div>
+        <div class="map reveal"><img src="../img/hollowtide-flood.jpg" alt="The flood" loading="lazy"><div><b>Home Isle</b><p>Your camp, stash and workbench</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="download">
+    <div class="wrap">
+      <div class="download panel reveal">
+        <img src="../assets/hollowtide-icon.png" alt="" style="width:92px;margin:0 auto 14px;border-radius:22px;box-shadow:0 10px 40px #0009">
+        <h2>Download Hollowtide</h2>
+        <p class="sub" style="margin:0 auto">Free for Windows 10 and 11. On a Chromebook? Play it in your browser, and in Chrome click <b>Install</b> in the address bar to add it to your shelf.</p>
+        <div class="actions">
+          <a class="btn tide" href="https://github.com/Camells1/Hollowtide/releases/latest/download/Hollowtide-Setup.exe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+            Download installer
+          </a>
+          <a class="btn ghost" href="../play/hollowtide/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg> Play in browser</a>
+        </div>
+        <p class="small">If Windows says "Windows protected your PC", click <b>More info → Run anyway</b>. That shows up because the game isn't signed yet. See <a href="https://github.com/Camells1/Hollowtide/releases">all versions</a>.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS</span></a>
+    <span>© <span data-year></span> Camel Studios</span>
+    <nav><a href="../">Home</a><a href="../riftline/">Riftline</a><a href="../shattercrown/">Shattercrown</a><a href="../account/">Account</a></nav>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
