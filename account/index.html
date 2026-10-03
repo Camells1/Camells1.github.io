@@ -67,6 +67,7 @@ import {
   sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, writeBatch, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { ok as nameOk } from '../assets/filter.js';
 
 // Public web config (safe to publish: access is controlled by Firebase Auth and Firestore rules)
 const app = initializeApp({
@@ -164,6 +165,7 @@ $('#f-in').addEventListener('submit', async e => {
 $('#f-up').addEventListener('submit', async e => {
   e.preventDefault(); msg('');
   const name = cleanName($('#su-name').value), tag = cleanTag($('#su-tag').value);
+  if (!nameOk(name) || !nameOk(tag)) { msg("Pick a different name or tag: that one isn't allowed."); return; }
   if (name.length < 3) return msg('Username needs at least 3 characters.');
   if (tag.length < 3) return msg('Tag needs 3 to 5 letters or numbers.');
   busy(e.target, true);
@@ -198,6 +200,7 @@ $('#b-edit').addEventListener('click', () => {
 $('#f-edit').addEventListener('submit', async e => {
   e.preventDefault();
   const name = cleanName($('#ed-name').value), tag = cleanTag($('#ed-tag').value);
+  if (!nameOk(name) || !nameOk(tag)) { msg("Pick a different name or tag: that one isn't allowed."); return; }
   if (name.length < 3 || tag.length < 3) return msg('Username needs 3+ characters and the tag 3 to 5.');
   busy(e.target, true);
   try { await claim(auth.currentUser, name, tag); $('#f-edit').classList.add('hidden'); show(auth.currentUser); msg('Saved. Nobody else can use this ID now.', true); }

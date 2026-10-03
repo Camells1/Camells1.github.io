@@ -10,6 +10,7 @@ import { BuyMenu } from './ui/buy.js';
 import { PointerLock } from './ui/pointer.js';
 import { PeerConnection } from './net/PeerConnection.js';
 import { account } from './net/account.js';
+import { clean as cleanWords, ok as nameOk } from './filter.js';
 import { sfx, setVolume, unlock } from './audio.js';
 
 const $ = s => document.querySelector(s);
@@ -34,7 +35,7 @@ const save = () => { try { localStorage.setItem('riftline-settings', JSON.string
 const TAG_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const randomTag = () => Array.from({ length: 4 }, () => TAG_CHARS[Math.floor(Math.random() * TAG_CHARS.length)]).join('');
 const cleanTag = t => String(t || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
-const cleanName = n => String(n || '').replace(/[^\p{L}\p{N} _.-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 14);
+const cleanName = n => cleanWords(String(n || '').replace(/[^\p{L}\p{N} _.-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 14));
 if (!cleanTag(settings.tag)) settings.tag = randomTag();
 setVolume(settings.volume);
 
@@ -218,6 +219,7 @@ $('#acc-save').addEventListener('click', async () => {
   const n = cleanName($('#acc-name').value), t = cleanTag($('#acc-tag').value);
   if (n.length < 3) { $('#acc-err').textContent = 'Username needs at least 3 characters.'; return; }
   if (t.length < 3) { $('#acc-err').textContent = 'Tag needs 3 to 5 letters or numbers.'; return; }
+  if (n.includes('*') || !nameOk(n) || !nameOk(t)) { $('#acc-err').textContent = "Pick a different name or tag: that one isn't allowed."; return; }
   const btn = $('#acc-save'); btn.disabled = true; $('#acc-err').textContent = 'Checking…';
   // Every username#tag belongs to one player only
   try {
