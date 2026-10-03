@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Night Shift Zoo</title>
+<link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icon.png">
+<style>
+:root { --ink: #1b1630; --paper: #fff6dc; --sun: #ffc93c; --leaf: #5fd08a; --berry: #ff5d73; --sky: #5bc8ff; --plum: #6a4cff; --r: 18px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #0c0a18; color: var(--ink); font: 800 16px/1.3 "Arial Rounded MT Bold", Bahnschrift, "Segoe UI", sans-serif; user-select: none; }
+canvas#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+.hide { display: none !important; }
+button, input, select { font: inherit; color: inherit; }
+/* sticker look: thick outline, hard shadow */
+.card { background: var(--paper); border: 4px solid var(--ink); border-radius: var(--r); box-shadow: 0 6px 0 var(--ink); }
+.btn { display: block; width: 100%; padding: 12px 18px; margin: 8px 0; background: var(--sun); border: 4px solid var(--ink); border-radius: 16px; box-shadow: 0 5px 0 var(--ink); cursor: pointer; font-size: 19px; transition: transform .06s, box-shadow .06s, background .1s; }
+.btn:hover { background: #ffdb6e; transform: translateY(-2px) rotate(-0.6deg); box-shadow: 0 7px 0 var(--ink); }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.btn.green { background: var(--leaf); } .btn.green:hover { background: #86e3a8; }
+.btn.blue { background: var(--sky); } .btn.blue:hover { background: #8adaff; }
+.btn.red { background: var(--berry); color: #fff; } .btn.small { font-size: 15px; padding: 8px 12px; }
+.btn:disabled { background: #c9c3b0; cursor: default; transform: none; box-shadow: 0 5px 0 var(--ink); color: #6d6a60; }
+.field { width: 100%; padding: 10px 14px; border: 4px solid var(--ink); border-radius: 14px; background: #fff; font-size: 18px; outline: none; }
+.field:focus { background: #fffbe8; }
+.screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; gap: 34px; background: radial-gradient(1200px 700px at 50% 20%, #3b2a7a, #130e2a 75%); }
+.screen.glass { background: linear-gradient(rgba(24, 16, 60, .18), rgba(24, 16, 60, .62)); }
+.logo { text-align: center; color: #fff; text-shadow: 0 6px 0 var(--ink), 4px 0 0 var(--ink), -4px 0 0 var(--ink), 0 -4px 0 var(--ink); letter-spacing: 1px; line-height: .92; font-size: 78px; margin: 0; transform: rotate(-3deg); }
+.logo span { display: block; } .logo .a { color: var(--sun); } .logo .b { color: var(--leaf); font-size: 96px; } .logo .c { color: var(--berry); }
+.tag { color: #ffe9a8; text-align: center; margin: 18px 0 0; font-size: 19px; text-shadow: 0 2px 0 var(--ink); }
+.eyes { display: flex; justify-content: center; gap: 10px; margin-top: 16px; }
+.eye { width: 62px; height: 62px; background: #fff; border: 5px solid var(--ink); border-radius: 50%; position: relative; }
+.eye i { position: absolute; width: 26px; height: 26px; background: var(--ink); border-radius: 50%; left: 16px; top: 16px; transition: transform .08s; }
+.panel { width: 380px; padding: 22px; }
+.panel h2 { margin: 0 0 10px; font-size: 24px; }
+.row { display: flex; gap: 8px; align-items: center; } .row > * { flex: 1; }
+.hats { display: flex; gap: 8px; margin: 10px 0; }
+.hat { flex: 1; padding: 8px 0; text-align: center; border: 4px solid var(--ink); border-radius: 14px; font-size: 26px; cursor: pointer; background: #fff; }
+.hat.on { box-shadow: 0 0 0 4px var(--sun) inset; transform: translateY(-3px) rotate(-3deg); }
+.msg { min-height: 22px; color: #c0303f; font-size: 14px; margin-top: 6px; }
+.note { font-size: 13px; color: #6a6480; font-weight: 600; }
+#loading { position: fixed; inset: 0; background: #130e2a; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; z-index: 50; gap: 16px; }
+#loadbar { width: 340px; height: 26px; border: 4px solid #fff; border-radius: 14px; overflow: hidden; } #loadbar i { display: block; height: 100%; width: 0; background: var(--sun); }
+/* lobby */
+#room-code { font-size: 54px; letter-spacing: 8px; text-align: center; background: var(--ink); color: var(--sun); border-radius: 14px; padding: 4px 0; user-select: text; }
+.slot { display: flex; align-items: center; gap: 10px; padding: 8px 10px; margin: 6px 0; border: 3px solid var(--ink); border-radius: 12px; background: #fff; }
+.slot.empty { opacity: .45; border-style: dashed; }
+.dot { width: 22px; height: 30px; border-radius: 11px; border: 3px solid var(--ink); flex: none; }
+/* HUD */
+#hud { position: fixed; inset: 0; pointer-events: none; }
+#clock { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); padding: 6px 18px 9px; text-align: center; min-width: 230px; }
+#clock b { font-size: 24px; } #clock small { display: block; font-size: 13px; color: #6a6480; }
+#clock-bar { height: 8px; border: 2px solid var(--ink); border-radius: 6px; margin-top: 4px; overflow: hidden; background: #fff; } #clock-bar i { display: block; height: 100%; background: var(--sun); }
+#clock.night { background: #2b2360; color: #fff; } #clock.night small { color: #b8b0ee; } #clock.night #clock-bar i { background: #8f7bff; }
+#team { position: absolute; top: 14px; left: 14px; width: 210px; }
+.mate { display: flex; align-items: center; gap: 8px; padding: 5px 9px; margin-bottom: 6px; font-size: 14px; border-width: 3px; box-shadow: 0 4px 0 var(--ink); border-radius: 12px; }
+.mate .hpb { flex: 1; height: 8px; border: 2px solid var(--ink); border-radius: 5px; background: #fff; overflow: hidden; } .mate .hpb i { display: block; height: 100%; background: var(--leaf); }
+.mate.dead { background: #d9d2c4; } .mate .mic { opacity: 0; } .mate.talk .mic { opacity: 1; } .mate.talk { transform: scale(1.05) rotate(-1deg); background: #fffbe0; }
+#board { position: absolute; top: 14px; right: 14px; width: 250px; padding: 10px 12px; transform: rotate(1.2deg); }
+#board h3 { margin: 0 0 4px; font-size: 15px; display: flex; justify-content: space-between; } #money { color: #1f8a4c; }
+#tasks { margin: 0; padding: 0; list-style: none; font-size: 13.5px; font-weight: 700; } #tasks li { padding: 2px 0 2px 22px; position: relative; }
+#tasks li::before { content: ''; position: absolute; left: 0; top: 4px; width: 12px; height: 12px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; }
+#tasks li.done { color: #7a7690; text-decoration: line-through; } #tasks li.done::before { background: var(--leaf); } #tasks li.bad { color: #c0303f; } #tasks li.bad::before { background: var(--berry); }
+#vitals { position: absolute; left: 14px; bottom: 14px; width: 250px; padding: 8px 12px; }
+.bar { display: flex; align-items: center; gap: 8px; font-size: 14px; margin: 3px 0; } .bar span { width: 20px; text-align: center; }
+.bar div { flex: 1; height: 13px; border: 3px solid var(--ink); border-radius: 8px; background: #fff; overflow: hidden; } .bar i { display: block; height: 100%; }
+#hp i { background: var(--berry); } #stam i { background: var(--sky); } #batt i { background: var(--sun); }
+#hotbar { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.item { width: 62px; height: 62px; display: flex; align-items: center; justify-content: center; font-size: 28px; position: relative; border-radius: 14px; }
+.item small { position: absolute; left: 5px; top: 1px; font-size: 11px; } .item em { position: absolute; right: 5px; bottom: 1px; font-size: 12px; font-style: normal; }
+.item.on { background: var(--sun); transform: translateY(-8px) rotate(-3deg); } .item.off { opacity: .35; }
+#carry { position: absolute; bottom: 92px; left: 50%; transform: translateX(-50%); padding: 4px 14px; font-size: 14px; background: #ffe9a8; }
+#prompt { position: absolute; top: 58%; left: 50%; transform: translateX(-50%); padding: 7px 16px; font-size: 17px; white-space: nowrap; }
+#prompt kbd { background: var(--ink); color: #fff; border-radius: 7px; padding: 1px 8px; margin-right: 6px; font: inherit; }
+#hold { height: 7px; border-radius: 4px; background: #e4dcc2; margin-top: 5px; overflow: hidden; } #hold i { display: block; height: 100%; width: 0; background: var(--leaf); }
+#cross { position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); }
+#radio { position: absolute; bottom: 104px; left: 50%; transform: translateX(-50%) rotate(-0.6deg); width: min(640px, 70vw); padding: 10px 16px; background: #dff3ff; }
+#radio b { color: var(--plum); margin-right: 8px; } #radio span { font-weight: 700; }
+#toasts { position: absolute; right: 14px; bottom: 14px; width: 300px; display: flex; flex-direction: column-reverse; gap: 6px; }
+.toast { padding: 7px 12px; font-size: 14px; border-width: 3px; box-shadow: 0 4px 0 var(--ink); border-radius: 12px; animation: pop .25s; } .toast.bad { background: #ffd2d8; } .toast.good { background: #d4f7df; } .toast.egg { background: #f1dcff; }
+@keyframes pop { from { transform: scale(.6) rotate(-6deg); opacity: 0; } }
+#banner { position: absolute; top: 24%; left: 0; right: 0; text-align: center; color: #fff; text-shadow: 0 5px 0 var(--ink), 3px 0 0 var(--ink), -3px 0 0 var(--ink), 0 -3px 0 var(--ink); animation: pop .4s; }
+#banner h1 { margin: 0; font-size: 72px; transform: rotate(-2deg); } #banner p { margin: 6px 0 0; font-size: 24px; color: var(--sun); }
+#hurt { position: absolute; inset: 0; box-shadow: inset 0 0 180px 60px rgba(255, 40, 70, .85); opacity: 0; }
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+#dead { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 150px; color: #fff; text-shadow: 0 4px 0 var(--ink), 3px 0 0 var(--ink), -3px 0 0 var(--ink), 0 -3px 0 var(--ink); background: radial-gradient(transparent 40%, rgba(40, 0, 20, .6)); }
+#dead h1 { font-size: 64px; margin: 0; color: var(--berry); transform: rotate(-3deg); } #dead p { font-size: 19px; margin: 6px; }
+#chat { position: absolute; left: 14px; bottom: 120px; width: 330px; font-size: 14px; font-weight: 700; color: #fff; text-shadow: 0 2px 0 var(--ink), 1px 0 0 var(--ink), -1px 0 0 var(--ink); }
+#chat div { margin: 2px 0; } #chat b { color: var(--sun); }
+#chat-in { pointer-events: auto; margin-top: 6px; font-size: 15px; padding: 6px 10px; }
+#mic { position: absolute; left: 280px; bottom: 18px; padding: 4px 12px; font-size: 14px; } #mic.on { background: var(--leaf); transform: scale(1.1) rotate(-3deg); }
+#help { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 12.5px; font-weight: 700; color: #fff; text-shadow: 0 2px 0 var(--ink), 1px 0 0 var(--ink), -1px 0 0 var(--ink); line-height: 1.7; opacity: .85; }
+#help kbd { background: var(--ink); border-radius: 6px; padding: 0 6px; font: inherit; }
+/* overlays */
+.over { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(14, 10, 34, .55); }
+.over .panel { width: 480px; max-height: 86vh; overflow: auto; }
+#map-panel { padding: 12px; width: auto; } #map { display: block; border: 4px solid var(--ink); border-radius: 12px; }
+.up { display: flex; align-items: center; gap: 10px; padding: 8px; margin: 6px 0; border: 3px solid var(--ink); border-radius: 12px; background: #fff; }
+.up .ic { font-size: 28px; } .up .tx { flex: 1; font-size: 13px; font-weight: 600; } .up .tx b { font-size: 15px; display: block; font-weight: 800; } .up .btn { width: 92px; margin: 0; }
+#note-text { font: 600 18px/1.5 Georgia, serif; background: #fffdf2; padding: 16px; border: 3px dashed #b8a878; border-radius: 10px; transform: rotate(-1deg); }
+#end-title { font-size: 46px; margin: 0; text-align: center; } #end-text { font-weight: 600; font-size: 16px; line-height: 1.5; } #end-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; font-size: 14px; margin: 12px 0; }
+label.set { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 8px 0; font-size: 15px; } label.set input[type=range] { width: 180px; } label.set select { padding: 4px 8px; border: 3px solid var(--ink); border-radius: 10px; background: #fff; }
+</style>
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./vendor/three-addons/" } }</script>
+<script src="./node_modules/peerjs/dist/peerjs.min.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="hud" class="hide">
+  <div id="hurt"></div><div id="flash"></div>
+  <div id="clock" class="card"><b id="clock-time">8:00 AM</b><small id="clock-day">Day 1</small><div id="clock-bar"><i></i></div></div>
+  <div id="team"></div>
+  <div id="board" class="card"><h3><span id="board-title">To do</span><span id="money">$0</span></h3><ul id="tasks"></ul></div>
+  <div id="vitals" class="card">
+    <div class="bar" id="hp"><span>❤️</span><div><i></i></div></div>
+    <div class="bar" id="stam"><span>👟</span><div><i></i></div></div>
+    <div class="bar" id="batt"><span>🔦</span><div><i></i></div></div>
+  </div>
+  <div id="mic" class="card">🎤 <span id="mic-text">V: talk</span></div>
+  <div id="hotbar"></div>
+  <div id="carry" class="card hide"></div>
+  <div id="cross"></div>
+  <div id="prompt" class="card hide"><span id="prompt-text"></span><div id="hold"><i></i></div></div>
+  <div id="radio" class="card hide"><b id="radio-who"></b><span id="radio-text"></span></div>
+  <div id="banner" class="hide"><h1 id="banner-title"></h1><p id="banner-sub"></p></div>
+  <div id="dead" class="hide"><h1>YOU GOT EATEN</h1><p id="dead-by"></p><p id="dead-tip">A friend can bring you back at any Re-Bean-imator 💚</p></div>
+  <div id="chat"><div id="chat-log"></div><input id="chat-in" class="field hide" maxlength="120" placeholder="Say something..."></div>
+  <div id="toasts"></div>
+  <div id="help"><kbd>WASD</kbd> move &nbsp;<kbd>Shift</kbd> run &nbsp;<kbd>Ctrl</kbd> crouch / slide<br><kbd>E</kbd> use &nbsp;<kbd>F</kbd> torch &nbsp;<kbd>1-4</kbd> items &nbsp;<kbd>Q</kbd> drop bucket<br><kbd id="k-pttKey">V</kbd> talk &nbsp;<kbd id="k-radioKey">B</kbd> radio &nbsp;<kbd>Tab</kbd> map &nbsp;<kbd>G</kbd> dance &nbsp;<kbd>H</kbd> hide this</div>
+</div>
+
+<div id="map-over" class="over hide" style="pointer-events:none"><div id="map-panel" class="card panel"><canvas id="map" width="620" height="620"></canvas></div></div>
+<div id="shop-over" class="over hide"><div class="card panel"><h2>🛒 Keepers' Shop <span id="shop-money" style="float:right;color:#1f8a4c"></span></h2><p class="note">Upgrades are shared by the whole crew.</p><div id="shop-list"></div><button class="btn small" data-close>Back to work</button></div></div>
+<div id="note-over" class="over hide"><div class="card panel"><h2 id="note-title">📝 A note</h2><div id="note-text"></div><button class="btn small" data-close style="margin-top:14px">Put it back</button></div></div>
+<div id="tower-over" class="over hide"><div class="card panel"><h2>🗼 Control Tower</h2><p style="font-weight:600">Two big switches. One decision. It can't be undone.</p><button class="btn red" id="tw-seal">🔒 SEAL the Paleo Wing for the buyers</button><button class="btn green" id="tw-free">🌄 OPEN the north wall to the hills</button><button class="btn blue hide" id="tw-truth">📰 Send Dr. Vance's notes to every news desk, then open the wall</button><button class="btn small" data-close>Not yet</button></div></div>
+<div id="pause-over" class="over hide"><div class="card panel"><h2>⏸ Taking a breather</h2><p class="note">The zoo does not pause. The animals are still out there.</p><button class="btn green" id="btn-resume">Back to work</button><button class="btn blue" id="btn-settings2">Settings</button><button class="btn red" id="btn-leave2">Leave the zoo</button></div></div>
+<div id="end-over" class="over hide"><div class="card panel" style="width:560px"><h1 id="end-title"></h1><p id="end-text"></p><div id="end-stats"></div><button class="btn green" id="btn-end">Back to the menu</button></div></div>
+
+<div id="menu" class="screen glass hide">
+  <div>
+    <h1 class="logo"><span class="a">NIGHT</span><span class="b">SHIFT</span><span class="c">ZOO</span></h1>
+    <div class="eyes"><div class="eye"><i></i></div><div class="eye"><i></i></div></div>
+    <p class="tag">5 days. 5 nights. 2 to 4 keepers.<br>Don't get eaten.</p>
+  </div>
+  <div class="card panel">
+    <h2>Clock in</h2>
+    <input id="name" class="field" maxlength="14" placeholder="Your keeper name">
+    <div class="hats" id="hats"></div>
+    <button class="btn green" id="btn-host">Host a shift</button>
+    <div class="row"><input id="join-code" class="field" maxlength="5" placeholder="CODE" style="text-transform:uppercase;text-align:center;letter-spacing:4px"><button class="btn blue" id="btn-join" style="margin:0">Join</button></div>
+    <button class="btn small" id="btn-solo" style="margin-top:14px">Practice alone (no friends, no mercy)</button>
+    <div class="row"><button class="btn small" id="btn-settings">Settings</button><button class="btn small red" id="btn-quit">Quit</button></div>
+    <div class="msg" id="menu-msg"></div>
+    <div class="note">A Camel Studios game &middot; v<span id="ver"></span></div>
+  </div>
+</div>
+
+<div id="lobby" class="screen glass hide">
+  <div class="card panel">
+    <h2>Staff room</h2>
+    <p class="note">Give this code to your friends:</p>
+    <div id="room-code">-----</div>
+    <div id="lobby-list" style="margin-top:12px"></div>
+    <button class="btn green" id="btn-start">Start the shift</button>
+    <button class="btn small red" id="btn-leave">Leave</button>
+    <div class="msg" id="lobby-msg"></div>
+  </div>
+</div>
+
+<div id="settings-over" class="over hide" style="z-index:40"><div class="card panel"><h2>Settings</h2>
+  <label class="set">Volume <input type="range" id="set-vol" min="0" max="100"></label>
+  <label class="set">Mouse speed <input type="range" id="set-sens" min="20" max="250"></label>
+  <label class="set">Graphics <select id="set-quality"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+  <label class="set">Voice chat <select id="set-voice"><option value="ptt">Push to talk (hold V)</option><option value="vox">Voice activation</option><option value="open">Always on</option></select></label>
+  <label class="set">Voice activation sensitivity <input type="range" id="set-vox" min="0" max="100"></label>
+  <div class="set" style="display:flex;align-items:center;justify-content:space-between;margin:8px 0;font-size:15px">Push to talk key <button class="btn small blue" id="bind-pttKey" style="width:170px;margin:0">V</button></div>
+  <div class="set" style="display:flex;align-items:center;justify-content:space-between;margin:8px 0;font-size:15px">Radio key (everyone hears you) <button class="btn small blue" id="bind-radioKey" style="width:170px;margin:0">B</button></div>
+  <p class="note">Graphics changes apply the next time you start a shift.</p>
+  <button class="btn small" data-close>Done</button></div></div>
+
+<div id="loading"><h1 class="logo" style="font-size:54px"><span class="a">NIGHT</span><span class="b" style="font-size:68px">SHIFT</span><span class="c">ZOO</span></h1><div id="loadbar"><i></i></div><div id="loadtext">Waking up the animals...</div></div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

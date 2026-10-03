@@ -1,0 +1,19 @@
+{
+  "name": "Night Shift Zoo",
+  "short_name": "Night Shift Zoo",
+  "description": "2 to 4 keepers, 5 days, 5 nights. Do not get eaten. A Camel Studios game.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#130e2a",
+  "theme_color": "#130e2a",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

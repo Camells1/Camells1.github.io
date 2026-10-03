@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Night Shift Zoo | Camel Studios</title>
+<meta name="description" content="Night Shift Zoo: 2 to 4 keepers walk into the zoo, the gates slam shut, and they stay shut for 5 days and 5 nights. A goofy co-op bean game with proximity voice chat. A Camel Studios game.">
+<meta property="og:title" content="Night Shift Zoo">
+<meta property="og:description" content="5 days. 5 nights. 2 to 4 keepers. Don't get eaten.">
+<meta property="og:image" content="https://camells1.github.io/img/nightshiftzoo-woods.jpg">
+<link rel="icon" href="../assets/nightshiftzoo-icon.png">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* Night Shift Zoo's own colours: toy-box yellow on a purple night */
+  body { --red: #ffc93c; }
+  .ghero::after { background: linear-gradient(90deg, rgba(19, 12, 44, .94) 0%, rgba(19, 12, 44, .58) 50%, rgba(19, 12, 44, .08) 100%), linear-gradient(0deg, var(--bg) 0%, transparent 40%); }
+  .nz-title { display: flex; align-items: center; gap: 20px; }
+  .nz-title img { width: 110px; height: 110px; border-radius: 26px; box-shadow: 0 16px 50px #000a, 0 0 50px #ffc93c33; transform: rotate(-4deg); }
+  .nz-title h1 { font-family: 'Unbounded', sans-serif; font-weight: 800; font-size: clamp(34px, 5.6vw, 76px); letter-spacing: 2px; line-height: .98; }
+  .nz-title h1 span { display: block; } .nz-title .a { color: #ffc93c; } .nz-title .b { color: #5fd08a; } .nz-title .c { color: #ff5d73; }
+  .btn.zoo { background: linear-gradient(135deg, #ffe07a, #ffb020); color: #2a1a00; box-shadow: 0 10px 40px #ffc93c55; }
+  .feature .n { color: #ffc93c; }
+  .feature:hover { border-color: rgba(255, 201, 60, .45); }
+  .download { background: radial-gradient(ellipse at 50% 0%, #6a4cff33, transparent 60%), var(--panel); }
+  .shift { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 30px; }
+  .shift div { padding: 16px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); min-width: 0; }
+  .shift b { display: block; font-family: 'Unbounded', sans-serif; font-size: 15px; }
+  .shift small { color: var(--muted); }
+  .shift .day { border-color: #ffc93c77; background: linear-gradient(180deg, #ffc93c18, var(--panel)); }
+  .shift .night { border-color: #8f7bff88; background: linear-gradient(180deg, #6a4cff22, var(--panel)); }
+  .gallery { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; margin-top: 34px; }
+  .gallery .map:first-child { grid-row: span 2; aspect-ratio: auto; }
+  .gallery2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  @media (max-width: 900px) { .shift { grid-template-columns: 1fr 1fr; } .gallery, .gallery2 { grid-template-columns: 1fr; } .gallery .map:first-child { grid-row: auto; aspect-ratio: 16 / 9; } }
+</style>
+</head>
+<body>
+<div class="sky"></div><div class="stars"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
+    <nav class="links">
+      <a href="#shift">The shift</a>
+      <a href="#features">Features</a>
+      <a href="#world">Screenshots</a>
+      <a class="cta" href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="ghero">
+    <div class="bg" style="background-image:url(../img/nightshiftzoo-woods.jpg)"></div>
+    <div class="wrap">
+      <div class="nz-title"><img src="../assets/nightshiftzoo-icon.png" alt=""><h1><span class="a">NIGHT</span><span class="b">SHIFT</span><span class="c">ZOO</span></h1></div>
+      <p class="lead">You and your friends walk into Cedar Hollow Zoo. The gates slam shut behind you. They open again in five days. Feed the animals, fix the fences, and don't get eaten.</p>
+      <div class="actions">
+        <a class="btn zoo" href="https://github.com/Camells1/CamelClient/releases/latest/download/Camel-Client-Setup.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+          Get it in the Camel Client
+        </a>
+        <a class="btn ghost" href="../play/nightshiftzoo/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg> Play in browser</a>
+      </div>
+      <div class="meta"><span><b>Free</b> to play</span><span><b>Co-op</b> for 2 to 4</span><span><b>Proximity voice chat</b></span><span>Windows · <b>Chromebook</b> · any browser</span></div>
+    </div>
+  </section>
+
+  <section class="block" id="shift">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">The shift</div>
+        <h2>Five days. Five nights.</h2>
+        <p class="sub">The animals are ordinary by day. At night their eyes shine and they get ideas.</p>
+      </div>
+      <div class="shift reveal">
+        <div><b>Walk in</b><small>The bus leaves. The gate slams. Marlow the day manager is very sorry.</small></div>
+        <div class="day"><b>Day</b><small>Fill the troughs, patch the fences, spend your pay. Ring the bell when you're ready.</small></div>
+        <div class="night"><b>Night</b><small>They break out. Dart them, tag them, keep the lights on, lock every gate.</small></div>
+        <div><b>Night five</b><small>Reach the Control Tower before dawn and decide what happens to the zoo.</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Features</div>
+        <h2>What's in the zoo</h2>
+      </div>
+      <div class="features">
+        <div class="feature panel reveal"><div class="n">4</div><h3>Keepers, all beans</h3><p>Play with up to 3 friends using a room code. Everyone is a bean with a silly hat. No server to run.</p></div>
+        <div class="feature panel reveal"><div class="n">🎙</div><h3>Voice chat that looks silly</h3><p>Push to talk, voice activation or always on. Talking beans pump up and down. Hold the radio key and the whole crew hears you.</p></div>
+        <div class="feature panel reveal"><div class="n">14</div><h3>Kinds of animal</h3><p>Wolf packs, a bucket-stealing fox, charging bulls, clever raptors, a Yeti that only moves when nobody is looking, and the Rex.</p></div>
+        <div class="feature panel reveal"><div class="n">💚</div><h3>Re-Bean-imators</h3><p>Got eaten? A friend can bring you back at the glowing booths around the park. If everyone is eaten, the night starts again.</p></div>
+        <div class="feature panel reveal"><div class="n">8</div><h3>Enclosures</h3><p>A big hilly park where every corner looks different, with 25 kinds of bean tree, a food court, a playground and a tower.</p></div>
+        <div class="feature panel reveal"><div class="n">🧙</div><h3>Secrets</h3><p>Seven hidden gnomes, a golden camel, a squeaky chicken, a disco button and four different endings.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="world">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Screenshots</div>
+        <h2>See the zoo</h2>
+      </div>
+      <div class="gallery">
+        <div class="map reveal"><img src="../img/nightshiftzoo-woods.jpg" alt="Wolf Woods by day" loading="lazy"><div><b>Wolf Woods</b><p>Bean trees, bean fences, and something watching from the bushes</p></div></div>
+        <div class="map reveal"><img src="../img/nightshiftzoo-slam.jpg" alt="The main gate slams shut" loading="lazy"><div><b>SLAM</b><p>See you in five days</p></div></div>
+        <div class="map reveal"><img src="../img/nightshiftzoo-night.jpg" alt="The zoo at night" loading="lazy"><div><b>After dark</b><p>Keep your torch charged</p></div></div>
+      </div>
+      <div class="gallery2">
+        <div class="map reveal"><img src="../img/nightshiftzoo-beans.jpg" alt="Three keeper beans" loading="lazy"><div><b>The crew</b><p>Mouths flap when you talk</p></div></div>
+        <div class="map reveal"><img src="../img/nightshiftzoo-yard.jpg" alt="The maintenance yard" loading="lazy"><div><b>Everything has eyes</b><p>Even the buildings and the bins</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="download">
+    <div class="wrap">
+      <div class="download panel reveal">
+        <img src="../assets/nightshiftzoo-icon.png" alt="" style="width:92px;margin:0 auto 14px;border-radius:22px;box-shadow:0 10px 40px #0009">
+        <h2>Play Night Shift Zoo</h2>
+        <p class="sub" style="margin:0 auto">Free for Windows 10 and 11 through the Camel Client. On a Chromebook? Play it in your browser, and in Chrome click <b>Install</b> in the address bar to add it to your shelf.</p>
+        <div class="actions">
+          <a class="btn zoo" href="https://github.com/Camells1/CamelClient/releases/latest/download/Camel-Client-Setup.exe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
+            Get the Camel Client
+          </a>
+          <a class="btn ghost" href="../play/nightshiftzoo/"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg> Play in browser</a>
+        </div>
+        <p class="small">If Windows says "Windows protected your PC", click <b>More info → Run anyway</b>. That shows up because the app isn't signed yet. Best with 2 to 4 players; you can also practise alone.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="../"><img src="../assets/camel.svg" alt=""><span>CAMEL STUDIOS</span></a>
+    <span>© <span data-year></span> Camel Studios</span>
+    <nav><a href="../">Home</a><a href="../riftline/">Riftline</a><a href="../shattercrown/">Shattercrown</a><a href="../hollowtide/">Hollowtide</a><a href="../account/">Account</a></nav>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>
