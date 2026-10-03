@@ -60,5 +60,47 @@ service cloud.firestore {
         && request.resource.data.from == resource.data.from;
       allow delete: if request.auth != null && request.auth.uid in resource.data.users;
     }
+
+    // Camel Client: private chat between two friends. The chat id is the same pair id as their
+    // friendship, and only those two (while they are friends) can read or post. Messages can't be edited.
+    match /chats/{pair}/messages/{msg} {
+      allow read: if request.auth != null && request.auth.uid in pair.split('_');
+      allow create: if request.auth != null && request.auth.uid in pair.split('_')
+        && request.resource.data.keys().hasOnly(['from', 'text', 'at'])
+        && request.resource.data.from == request.auth.uid
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
+        && get(/databases/$(database)/documents/friends/$(pair)).data.status == 'accepted';
+    }
+
+    // Camel Client: parties of up to 4. Only members and invited players can see a party.
+    // The leader never changes; the leader can disband it, anyone else can leave.
+    match /parties/{party} {
+      allow read: if request.auth != null
+        && (request.auth.uid in resource.data.members || request.auth.uid in resource.data.invited);
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['leader', 'members', 'invited', 'ids', 'game', 'code', 'at'])
+        && request.resource.data.leader == request.auth.uid
+        && request.resource.data.members == [request.auth.uid];
+      allow update: if request.auth != null
+        && (request.auth.uid in resource.data.members || request.auth.uid in resource.data.invited)
+        && request.resource.data.keys().hasOnly(['leader', 'members', 'invited', 'ids', 'game', 'code', 'at'])
+        && request.resource.data.leader == resource.data.leader
+        && request.resource.data.members.size() <= 4
+        && request.resource.data.code is string && request.resource.data.code.size() <= 12
+        && request.resource.data.game is string && request.resource.data.game.size() <= 30;
+      allow delete: if request.auth != null && resource.data.leader == request.auth.uid;
+
+      match /messages/{msg} {
+        allow read: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/parties/$(party)).data.members;
+        allow create: if request.auth != null
+          && request.auth.uid in get(/databases/$(database)/documents/parties/$(party)).data.members
+          && request.resource.data.keys().hasOnly(['from', 'text', 'at'])
+          && request.resource.data.from == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500;
+      }
+    }
   }
 }
