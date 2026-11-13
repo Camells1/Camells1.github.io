@@ -4,24 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Camel Studios</title>
-<meta name="description" content="Camel Studios: a small indie studio making games with friends. Home of Riftline and Shattercrown.">
+<meta name="description" content="Camel Studios: a small indie studio making free games with friends. Home of Riftline, Shattercrown, Hollowtide and the bean games.">
 <meta property="og:title" content="Camel Studios">
 <meta property="og:description" content="A small indie studio making games with friends. Home of Riftline.">
 <meta property="og:image" content="https://camells1.github.io/img/riftline-lineup.jpg">
-<link rel="icon" href="assets/camel.svg">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="icon" href="/assets/camel.svg">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
 <div class="sky"></div><div class="stars"></div>
-
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="./"><img src="assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
-    <nav class="links">
-      <a href="#games">Games</a>
-      <a href="#about">About</a>
-      <a href="account/">Account</a>
-      <a class="cta" href="#games">Play</a>
+    <a class="logo" href="/"><img src="/assets/camel.svg" alt=""><span>CAMEL STUDIOS<small>INDIE GAMES</small></span></a>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sitenav" data-burger><span></span><span></span><span></span></button>
+    <nav class="links" id="sitenav" data-links>
+      <a href="/">Home</a>
+      <a href="/games/">Games</a>
+      <a href="/features/">Features</a>
+      <a href="/about/">About</a>
+      <a href="/account/">Account</a>
+      <a class="cta" href="/download/">Download</a>
     </nav>
   </div>
 </header>
@@ -38,112 +40,99 @@
       <svg class="d2" viewBox="0 0 2400 260" preserveAspectRatio="none"><path fill="#120b18" d="M0 200 C160 170 300 210 480 196 C660 182 760 150 960 172 C1160 194 1240 220 1440 206 C1640 192 1760 160 1960 182 C2140 202 2260 206 2400 200 L2400 260 L0 260 Z"/></svg>
     </div>
     <div class="hero-inner wrap">
-      <span class="kicker"><i></i> New: Night Shift Zoo &middot; also playing Riftline, Shattercrown &amp; Hollowtide</span>
+      <span class="kicker"><i></i> New: Night Shift Zoo</span>
       <h1 class="mega">CAMEL<br>STUDIOS</h1>
       <p class="lead">A small indie studio making games with friends. Fast, free, and built for playing together.</p>
       <div class="actions">
-        <a class="btn gold" href="https://github.com/Camells1/CamelClient/releases/latest/download/Camel-Client-Setup.exe">Get the Camel Client</a>
-        <a class="btn ghost" href="account/">Create an account</a>
-        <a class="btn ghost" href="#games">See our games</a>
+        <a class="btn gold" href="/download/">Get the Camel Client</a>
+        <a class="btn ghost" href="/games/">See our games</a>
       </div>
     </div>
   </section>
 
-  <section class="block" id="client">
+  <section class="block">
     <div class="wrap">
       <div class="reveal">
-        <div class="eyebrow">Camel Client</div>
-        <h2>One app for every game</h2>
-        <p class="sub">Sign in once, install and update all our games, and see which friends are online. Free for Windows 10 and 11.</p>
-        <div class="actions" style="margin-top:22px">
-          <a class="btn gold" href="https://github.com/Camells1/CamelClient/releases/latest/download/Camel-Client-Setup.exe">Download the Camel Client</a>
-          <a class="btn ghost" href="account/">Create an account</a>
-        </div>
-        <p class="sub" style="font-size:14px;margin-top:14px">If Windows says "Windows protected your PC", click <b>More info &rarr; Run anyway</b>. That appears because the app isn't signed yet.</p>
+        <div class="eyebrow">Where to go</div>
+        <h2>Start here</h2>
+        <p class="sub">Five free games, one app that runs them, and a crew that ships fixes fast.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="block" id="games">
-    <div class="wrap">
-      <div class="reveal">
-        <div class="eyebrow">Our games</div>
-        <h2>Made to play with friends</h2>
-        <p class="sub">Every Camel Studios game is free, updates itself, and uses one Camel Studios account.</p>
-      </div>
-      <div class="games">
-        <a class="game reveal" href="dontwakegrandpa/">
-          <div class="shot" style="background-image:url(img/dontwakegrandpa-awake.jpg)"></div>
-          <div class="shade"></div>
-          <div class="body">
-            <div class="sc-title"><img src="assets/dontwakegrandpa-icon.png" alt="" style="border-radius:10px"><span>DON'T WAKE GRANDPA</span></div>
-            <div class="tags"><span class="tag live">New</span><span class="tag">Co-op heist</span><span class="tag">2 to 4 · voice chat</span><span class="tag">Windows</span></div>
-            <p class="sub" style="color:#ddd">You are a tiny bean. He is a sleeping giant with a lot of nice things. He can hear your real microphone, and he has a slipper.</p>
-          </div>
+      <div class="routes">
+        <a class="route panel reveal" href="/games/">
+          <div class="ic">&#127918;</div>
+          <h3>Games</h3>
+          <p>A tactical shooter, an open-world RPG, a drowned city, and two games where everyone is a bean.</p>
+          <span class="go">All five games &rarr;</span>
         </a>
-        <a class="game reveal" href="nightshiftzoo/">
-          <div class="shot" style="background-image:url(img/nightshiftzoo-woods.jpg)"></div>
-          <div class="shade"></div>
-          <div class="body">
-            <div class="sc-title"><img src="assets/nightshiftzoo-icon.png" alt="" style="border-radius:10px"><span>NIGHT SHIFT ZOO</span></div>
-            <div class="tags"><span class="tag live">New</span><span class="tag">Co-op survival</span><span class="tag">2 to 4 · voice chat</span><span class="tag">Windows · ChromeOS</span></div>
-            <p class="sub" style="color:#ddd">The gates slam shut behind you and stay shut for five days and five nights. Feed the animals, fix the fences, and don't get eaten. Everyone is a bean.</p>
-          </div>
+        <a class="route panel reveal" href="/features/">
+          <div class="ic">&#9889;</div>
+          <h3>Features</h3>
+          <p>What the Camel Client does: one library, automatic updates, one account, friends, voice chat.</p>
+          <span class="go">What you get &rarr;</span>
         </a>
-        <a class="game reveal" href="riftline/">
-          <div class="shot" style="background-image:url(img/riftline-lineup.jpg)"></div>
-          <div class="shade"></div>
-          <div class="body">
-            <img class="mark" src="assets/riftline.svg" alt="Riftline">
-            <div class="tags"><span class="tag live">Out now</span><span class="tag">Tactical shooter</span><span class="tag">1v1 · 2v2</span><span class="tag">Windows · ChromeOS</span></div>
-            <p class="sub" style="color:#ddd">Pick an agent, buy your loadout and plant the spike. Round-based 3D shooting with abilities, six big maps and thirteen guns.</p>
-          </div>
-        </a>
-        <a class="game reveal sc" href="shattercrown/">
-          <div class="shot" style="background-image:url(img/shattercrown-cliffs.jpg)"></div>
-          <div class="shade"></div>
-          <div class="body">
-            <div class="sc-title"><img src="assets/shattercrown-icon.svg" alt=""><span>SHATTERCROWN</span></div>
-            <div class="tags"><span class="tag live">Out now</span><span class="tag">Action RPG</span><span class="tag">Co-op up to 4</span><span class="tag">Windows · ChromeOS</span></div>
-            <p class="sub" style="color:#ddd">Build a hero, explore a huge open world with friends, and take down eleven bosses. 17 races, 5 classes, mounts, pets and crafting.</p>
-          </div>
-        </a>
-        <a class="game reveal" href="hollowtide/">
-          <div class="shot" style="background-image:url(img/hollowtide-ruins.jpg)"></div>
-          <div class="shade"></div>
-          <div class="body">
-            <div class="sc-title"><img src="assets/hollowtide-icon.png" alt="" style="border-radius:10px"><span>HOLLOWTIDE</span></div>
-            <div class="tags"><span class="tag live">Out now</span><span class="tag">Co-op adventure</span><span class="tag">Up to 4 · voice chat</span><span class="tag">Windows · ChromeOS</span></div>
-            <p class="sub" style="color:#ddd">When the tide drains, the sunken cities are yours for a few minutes. Loot them in first person, fight hollow crabs, and get back before the sea returns.</p>
-          </div>
+        <a class="route panel reveal" href="/download/">
+          <div class="ic">&#128230;</div>
+          <h3>Download</h3>
+          <p>The client for Windows 10 and 11, single-game installers, and what your machine needs.</p>
+          <span class="go">Get it free &rarr;</span>
         </a>
       </div>
     </div>
   </section>
 
-  <section class="block" id="about">
+  <section class="block" style="padding-top:0">
     <div class="wrap">
       <div class="reveal">
-        <div class="eyebrow">About</div>
-        <h2>Small crew, big ideas</h2>
-        <p class="sub">We build the games we want to play with our friends, and we ship updates fast.</p>
+        <div class="eyebrow">Newest first</div>
+        <h2>Playing right now</h2>
       </div>
-      <div class="values">
-        <div class="value panel reveal"><div class="ic">🎮</div><h3>Play together</h3><p>Everything is built around playing with friends: matchmaking, rooms with codes, and co-op against bots.</p></div>
-        <div class="value panel reveal"><div class="ic">⚡</div><h3>Always up to date</h3><p>Our games update themselves. Install once and you're on the newest version every time you play.</p></div>
-        <div class="value panel reveal"><div class="ic">🐪</div><h3>One account</h3><p>One Camel Studios account with your username#tag, shared by every game we make.</p></div>
+      <div class="strip">
+        <a class="game reveal" href="/nightshiftzoo/">
+          <div class="shot" style="background-image:url(/img/nightshiftzoo-woods.jpg)"></div>
+          <div class="shade"></div>
+          <div class="body">
+            <div class="sc-title"><img src="/assets/nightshiftzoo-icon.png" alt="" style="border-radius:10px"><span>NIGHT SHIFT ZOO</span></div>
+            <div class="tags"><span class="tag live">New</span><span class="tag">Co-op survival</span></div>
+            <p class="sub" style="color:#ddd;font-size:15px">Five days, five nights, locked in with the animals. Everyone is a bean.</p>
+          </div>
+        </a>
+        <a class="game reveal" href="/dontwakegrandpa/">
+          <div class="shot" style="background-image:url(/img/dontwakegrandpa-awake.jpg)"></div>
+          <div class="shade"></div>
+          <div class="body">
+            <div class="sc-title"><img src="/assets/dontwakegrandpa-icon.png" alt="" style="border-radius:10px"><span>DON'T WAKE GRANDPA</span></div>
+            <div class="tags"><span class="tag live">New</span><span class="tag">Co-op heist</span></div>
+            <p class="sub" style="color:#ddd;font-size:15px">He hears your real microphone. He has a slipper. Good luck.</p>
+          </div>
+        </a>
+        <a class="game reveal" href="/riftline/">
+          <div class="shot" style="background-image:url(/img/riftline-lineup.jpg)"></div>
+          <div class="shade"></div>
+          <div class="body">
+            <img class="mark" src="/assets/riftline.svg" alt="Riftline">
+            <div class="tags"><span class="tag live">Out now</span><span class="tag">1v1 &middot; 2v2</span></div>
+            <p class="sub" style="color:#ddd;font-size:15px">Pick an agent, buy your loadout, plant the spike. Six maps, thirteen guns.</p>
+          </div>
+        </a>
       </div>
+      <a class="more-link reveal" href="/games/">See all five games &rarr;</a>
     </div>
   </section>
 </main>
-
 <footer>
   <div class="wrap">
-    <a class="logo" href="./"><img src="assets/camel.svg" alt=""><span>CAMEL STUDIOS</span></a>
-    <span>© <span data-year></span> Camel Studios</span>
-    <nav><a href="riftline/">Riftline</a><a href="shattercrown/">Shattercrown</a><a href="hollowtide/">Hollowtide</a><a href="dontwakegrandpa/">Don't Wake Grandpa</a><a href="nightshiftzoo/">Night Shift Zoo</a><a href="account/">Account</a><a href="https://github.com/Camells1/riftline">GitHub</a></nav>
+    <a class="logo" href="/"><img src="/assets/camel.svg" alt=""><span>CAMEL STUDIOS</span></a>
+    <span>&copy; <span data-year></span> Camel Studios</span>
+    <nav>
+      <a href="/games/">Games</a>
+      <a href="/features/">Features</a>
+      <a href="/about/">About</a>
+      <a href="/download/">Download</a>
+      <a href="/account/">Account</a>
+      <a href="https://github.com/Camells1">GitHub</a>
+    </nav>
   </div>
 </footer>
-<script src="assets/site.js"></script>
+<script src="/assets/site.js"></script>
 </body>
 </html>
